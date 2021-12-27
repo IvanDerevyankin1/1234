@@ -1,0 +1,33 @@
+########### АС КНБ  ###########
+
+### Сервер предварительной обработки данных / хранения данных (совмещены)
+### Эталонная среда
+KNB =
+  (DESCRIPTION =
+    (ADDRESS = (PROTOCOL = TCP)(HOST = 10.30.50.16)(PORT = 1521))
+    (CONNECT_DATA =
+      (SERVICE_NAME = KNB)
+    )
+  )
+
+
+### Сервер предварительной обработки данных
+### Среда разработки
+KNB_DS_DEV_EVOLUTION =
+  (DESCRIPTION =
+    (ADDRESS = (PROTOCOL = TCP)(HOST = 10.10.1.66)(PORT = 1521))
+    (CONNECT_DATA =
+      (SERVICE_NAME = ORCL)
+    )
+  )
+
+
+### Сервер хранения данных
+### Среда разработки
+KNB_DWH_DEV_EVOLUTION =
+  (DESCRIPTION =
+    (ADDRESS = (PROTOCOL = TCP)(HOST = 10.10.1.251)(PORT = 1521))
+    (CONNECT_DATA =
+      (SERVICE_NAME = ORCL)
+    )
+  )

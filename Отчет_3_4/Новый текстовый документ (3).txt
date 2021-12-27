@@ -1,0 +1,170 @@
+<queryProblems><message severity="warning" text="XQE-WRN-0053 
+The parameters with the same name &quot;Конец периода&quot; 
+in the queries &quot;Табличные части, Табличные части_ForQrd_Табличные части.2&quot; 
+may be used in different context. The master-detail report may return unexpected results." title="XQE-WRN-0053 
+The parameters with the same name &quot;Конец периода&quot; in the queries &quot;
+Табличные части, Табличные части_ForQrd_Табличные части.2&quot;
+ may be used in different context. The master-detail report may return unexpected results." type="planningStats"/>
+	<message severity="warning" text="XQE-WRN-0053 The parameters with the same name &quot;
+Начало периода&quot; in the queries &quot;Табличные части, Табличные части_ForQrd_Табличные части.2&quot; 
+may be used in different context. The master-detail report may return unexpected results." title="XQE-WRN-0053 
+The parameters with the same name &quot;Начало периода&quot; in the queries &quot;Табличные части, Табличные части_ForQrd_Табличные части.2&quot; 
+may be used in different context. The master-detail report may return unexpected results." type="planningStats"/>
+message severity="warning" text="XQE-WRN-0053 The parameters with the same name &quot;Конец периода&quot;
+in the queries &quot;Табличные части_ForQrd_Табличные части.4, Табличные части&quot; may be used in different context. 
+The master-detail report may return unexpected results." title="XQE-WRN-0053 The parameters with the same name &quot;
+Конец периода&quot; in the queries &quot;Табличные части_ForQrd_Табличные части.4, Табличные части&quot;
+may be used in different context. The master-detail report may return unexpected results." type="planningStats"/>
+	<message severity="warning" text="XQE-WRN-0053 The parameters with the same name &quot;Начало периода&quot; 
+in the queries &quot;Табличные части_ForQrd_Табличные части.4, Табличные части&quot;
+ may be used in different context. The master-detail report may return unexpected results." title="XQE-WRN-0053 
+The parameters with the same name &quot;Начало периода&quot; in the queries &quot;
+Табличные части_ForQrd_Табличные части.4, Табличные части&quot; may be used in different context. 
+The master-detail report may return unexpected results." type="planningStats"/>
+</queryProblems>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+?Начало периода?
+?Конец периода?
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                      <script type= "text/javascript">
+  // ВНИМАНИЕ!!! Скрипт работает корректно сли он размещён после кнопки приглашений с типом "Готово"
+
+  //var bpButtons = document.getElementsByClassName('bp'); // не работает на IE
+  //var bpButtons = document.querySelectorAll('.bp'); // не работает на IE
+  var bpButtons = document.getElementsByTagName('button'); // кнопки приглашений
+
+  var finishButton;
+  // получим кнопку с типом "Готово"
+  for (var i = 0; i < bpButtons.length; i++)
+  {
+    if (bpButtons[i].id.substr(0, 6).toLowerCase() == 'finish' )
+    {
+      finishButton = bpButtons[i];
+      break;
+    }
+  }
+
+  // Получим объект, содержащий форму параметров
+  var fw = getFormWarpRequest();
+
+  if (finishButton)
+  {
+    // Инициализируем переменные, содержащие экземпляры контролов
+    var pIdxList = fw._oLstChoicespIdx;        // Список индексов валют (используемое значение - ключ индекса)
+    //var pIdxStr  = fw._textEditBoxpIdxStr;     // Список индексов валют в виде строки
+    var pTuList = fw._oLstChoicespTu;          // Список ТУ (используемое значение - ключ индекса)
+    //var pTuStr  = fw._textEditBoxpTuStr;       // Список ТУ в виде строки
+    var pGuList = fw._oLstChoicespGu;          // Список ГУ (используемое значение - ключ индекса)
+   
+
+    var onClickHandler = finishButton.getAttribute('onclick');
+    if (onClickHandler == "function onclick()\n{\noCV_NS_.promptAction('finish')\n}")
+    {
+      finishButton.onclick = oldIEOnClick;
+    }
+    else
+    {
+      onClickHandler = 'SetAllControls();' + onClickHandler + ';';
+      finishButton.setAttribute('onclick', onClickHandler);
+    }
+  }
+
+/* Не нужно в связи с переходом на promptmany в модели данных
+  // Запись списка идентификаторов выбранных записей в одну строку
+  function SetListToStr(pList, pStr)
+  {
+    var str='';
+
+    // Полученим строку, содержащую список ключей выбранных записей через запятую
+    for (var i = 0; i < pList.options.length; i++)
+    {
+      if (pList.options[i].selected == true)
+      { 
+        str = str + pList.options[i].value + ', ';
+      }
+    }
+
+    // Заносим полученную строку во вспомогательный текстбокс [контрол скрыт]
+    pStr.value = str;
+  }
+*/  
+
+  function SetDates()
+  {
+    var PVisibleDateFrom = fw.txtDatePVisibleDateFrom;
+    var PVisibleDateTo = fw.txtDatePVisibleDateTo;
+    var PDateFrom = fw.txtDatePDateFrom;
+    var PDateTo = fw.txtDatePDateTo;
+
+    if (PVisibleDateFrom.value) {
+      PDateFrom.value = PVisibleDateFrom.value;
+    }
+    if (PVisibleDateTo.value) {
+      PDateTo.value = PVisibleDateTo.value;
+    } 
+  }
+
+  // Перенос значений в контролы, используемые для передачи параметров в пакетные процедуры
+  function SetAllControls()
+  {
+    /* Не нужно в связи с переходом на promptmany в модели данных
+    SetListToStr(pIdxList, pIdxStr);
+    SetListToStr(pTuList, pTuStr);
+    */
+    SetDates();
+  }
+
+  // обработчик нажатия кнопки для старых версих IE
+  function oldIEOnClick()
+  {
+    SetAllControls();
+    oCV_NS_.promptAction('finish');
+  }
+</script>
+
+
+

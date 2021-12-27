@@ -1,0 +1,103 @@
+HTML scripts располагаются на тех котролах (областях) где будут действовать 
+
+
+---инициализация
+<script>
+var paulScripts = {}
+    , oCR = cognos.Report.getReport("THIS")
+    , gateway = window['oCV'+'_THIS_'].getRV().getCV().sGateway;
+
+// UTILITY FUNCTIONS
+/*
+ * function Scripts.getControl
+ * Simply returns the prompt control.
+ */
+
+paulScripts.getControl = function(promptName)   {
+    return oCR.prompt.getControlByName(promptName);
+  };
+
+</script>
+
+---------------------
+задать имя первому контролу 'pDateBeg' где вводится первая дата с
+
+
+<script>
+
+  paulScripts.getControl('pDateBeg').setValidator
+  (
+     function(values)
+     {
+        paulScripts.getControl('pDateBeg').setValidator
+        (
+           function(values)
+           {
+              oCR.sendRequest( cognos.Report.Action.REPROMPT);
+           }
+        );
+        return true;
+     }
+  );
+
+</script>
+
+--------------------------
+задать имя второму контролу 'pDateEnd' где вводится вторая дата ПО
+<script>
+
+  paulScripts.getControl('pDateEnd').setValidator
+  (
+     function(values)
+     {
+        paulScripts.getControl('pDateEnd').setValidator
+        (
+           function(values)
+           {
+              oCR.sendRequest( cognos.Report.Action.REPROMPT);
+           }
+        );
+        return true;
+     }
+  );
+
+</script>
+
+
+----------------
+на кнопке формирования отчета
+
+                        <script type="text/javascript">
+                        // функция инициации события onchange в списке, для которого была вызвана операция Select/Deselect all
+                        function FireOnChangeAfterClick(link, regStr){
+                        var res = link.id.match(regStr);
+                        if (res){
+                        var str = 'PRMT_SV_' + link.id.substr(res[0].length);
+                        if (link.attachEvent){
+                        link.attachEvent('onclick', function(){
+                        setTimeout(function(){
+                        var elem = document.getElementById(str);
+                        elem.fireEvent("onchange");
+                        }, 0);
+                        });
+                        }
+                        }
+                        }
+
+                        // исправления бага Cognos, заключающегося в том, что при нажатии Select/Deselect all для списка 
+                        // с множественной отметкой не инициируется событие смены отметки
+                        var a = document.getElementsByTagName("A");
+                        for( var i = a.length-1; i >= 0; i--)
+                        {
+                        var link = a[i];
+                        if (typeof(link.id) == "string") {
+                        FireOnChangeAfterClick(link, /PRMT_(SV|LIST)_LINK_SELECT_/);
+                        FireOnChangeAfterClick(link, /PRMT_(SV|LIST)_LINK_DESELECT_/);
+                        }
+                        }
+                        </script>
+
+
+
+# prompt('Технический конец периода', 'date', timestampMask($current_timestamp, 'yyyy-mm-dd'))#
+# prompt('Технический конец периода', 'date', _add_days(timestampMask($current_timestamp, 'yyyy-mm-dd') ,1))#
